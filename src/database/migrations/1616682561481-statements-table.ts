@@ -16,6 +16,11 @@ export class accountsTable1616682561481 implements MigrationInterface {
           type: 'uuid',
         },
         {
+          name: 'send_id',
+          type: 'uuid',
+          isNullable: true
+        },
+        {
           name: 'description',
           type: 'varchar',
         },
@@ -28,7 +33,7 @@ export class accountsTable1616682561481 implements MigrationInterface {
         {
           name: 'type',
           type: 'enum',
-          enum: ['deposit', 'withdraw']
+          enum: ['deposit', 'withdraw', 'transfer', 'received']
         },
         {
           name: 'created_at',
@@ -45,6 +50,14 @@ export class accountsTable1616682561481 implements MigrationInterface {
         {
           name: 'statements',
           columnNames: ['user_id'],
+          referencedTableName: 'users',
+          referencedColumnNames: ['id'],
+          onUpdate: 'CASCADE',
+          onDelete: 'CASCADE'
+        },
+        {
+          name: 'transitions',
+          columnNames: ['send_id'],
           referencedTableName: 'users',
           referencedColumnNames: ['id'],
           onUpdate: 'CASCADE',
