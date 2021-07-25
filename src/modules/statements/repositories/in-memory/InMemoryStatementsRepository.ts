@@ -17,19 +17,19 @@ export class InMemoryStatementsRepository implements IStatementsRepository {
     return statement;
   }
 
-  async findStatementOperation({ statement_id, user_id }: IGetStatementOperationDTO): Promise<Statement | undefined> {
+  async findStatementOperation({ statement_id, received_id }: IGetStatementOperationDTO): Promise<Statement | undefined> {
     return this.statements.find(operation => (
       operation.id === statement_id &&
-      operation.user_id === user_id
+      operation.received_id === received_id
     ));
   }
 
-  async getUserBalance({ user_id, with_statement = false }: IGetBalanceDTO):
+  async getUserBalance({ received_id, with_statement = false }: IGetBalanceDTO):
     Promise<
       { balance: number } | { balance: number, statement: Statement[] }
     >
   {
-    const statement = this.statements.filter(operation => operation.user_id === user_id);
+    const statement = this.statements.filter(operation => operation.received_id === received_id);
 
     const balance = statement.reduce((acc, operation) => {
       if (operation.type === 'deposit') {

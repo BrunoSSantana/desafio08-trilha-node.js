@@ -2,11 +2,11 @@ import { inject, injectable } from "tsyringe";
 
 import { IUsersRepository } from "../../../users/repositories/IUsersRepository";
 import { IStatementsRepository } from "../../repositories/IStatementsRepository";
-import { CreateStatementError } from "./CreateStatementError";
-import { ICreateStatementDTO } from "./ICreateStatementDTO";
+import { CreateTransferError } from "./CreateTransferError";
+import { ICreateTransferDTO } from "./ICreateTransferDTO";
 
 @injectable()
-export class CreateStatementUseCase {
+class CreateTransferUseCase {
   constructor(
     @inject('UsersRepository')
     private usersRepository: IUsersRepository,
@@ -15,28 +15,30 @@ export class CreateStatementUseCase {
     private statementsRepository: IStatementsRepository
   ) {}
 
-  async execute({ received_id, type, amount, description }: ICreateStatementDTO) {
+  async execute({ received_id, type, amount, description }: ICreateTransferDTO) {
     const user = await this.usersRepository.findById(received_id);
 
     if(!user) {
-      throw new CreateStatementError.UserNotFound();
+      throw new CreateTransferError.UserNotFound();
     }
 
     if(type === 'withdraw') {
       const { balance } = await this.statementsRepository.getUserBalance({ received_id });
 
       if (balance < amount) {
-        throw new CreateStatementError.InsufficientFunds()
+        throw new CreateTransferError.InsufficientFunds()
       }
     }
 
-    const statementOperation = await this.statementsRepository.create({
+    const transferOperation = await this.statementsRepository.create({
       received_id,
       type,
       amount,
       description
     });
 
-    return statementOperation;
+    return transferOperation;
   }
 }
+
+export { CreateTransferUseCase }

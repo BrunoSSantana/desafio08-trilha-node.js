@@ -21,7 +21,7 @@ describe("Get Statement of Operation", ()=> {
     amount: 100,
     description: "test",
     type: OperationType.DEPOSIT,
-    user_id:""
+    received_id:""
   }
   beforeEach(() => {
     inMemoryUsersRepository = new InMemoryUsersRepository();
@@ -42,18 +42,18 @@ describe("Get Statement of Operation", ()=> {
       amount: statement.amount,
       description: statement.description,
       type: statement.type,
-      user_id: newUser.id as string,
+      received_id: newUser.id as string,
     });
     await inMemoryStatementsRepository.create({
       amount: 1800,
       description: "test 02",
       type: OperationType.DEPOSIT,
-      user_id: newUser.id as string,
+      received_id: newUser.id as string,
     });
 
     const result = await getStatementOperationUseCase.execute({
       statement_id: newStatement.id as string,
-      user_id: newUser.id as string,
+      received_id: newUser.id as string,
     });
 
     expect(result.id).toEqual(newStatement.id);
@@ -64,13 +64,13 @@ describe("Get Statement of Operation", ()=> {
       amount: statement.amount,
       description: statement.description,
       type: statement.type,
-      user_id: "132",
+      received_id: "132",
     });
 
     expect(async ()=>{
       await getStatementOperationUseCase.execute({
         statement_id: newStatement.id as string,
-        user_id: "132",
+        received_id: "132",
       });
     }).rejects.toBeInstanceOf(GetStatementOperationError.UserNotFound);
   });
@@ -87,12 +87,12 @@ describe("Get Statement of Operation", ()=> {
         amount: 1800,
         description: "test 02",
         type: OperationType.DEPOSIT,
-        user_id: newUser.id as string,
+        received_id: newUser.id as string,
       });
 
       await getStatementOperationUseCase.execute({
         statement_id: "",
-        user_id: newUser.id as string,
+        received_id: newUser.id as string,
       });
     }).rejects.toBeInstanceOf(GetStatementOperationError.StatementNotFound);
   });

@@ -30,7 +30,7 @@ describe("Authenticate User", ()=> {
   it("should not be able to show a non-existent user", async () => {
 
     expect(async () => {
-      await showUserProfileUseCase.execute("user_id_non-existent");
+      await showUserProfileUseCase.execute("received_id_non-existent");
     }).rejects.toBeInstanceOf(ShowUserProfileError)
 
   });

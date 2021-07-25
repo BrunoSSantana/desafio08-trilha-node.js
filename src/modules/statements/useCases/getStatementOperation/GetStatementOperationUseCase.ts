@@ -5,7 +5,7 @@ import { IStatementsRepository } from "../../repositories/IStatementsRepository"
 import { GetStatementOperationError } from "./GetStatementOperationError";
 
 interface IRequest {
-  user_id: string;
+  received_id: string;
   statement_id: string;
 }
 
@@ -19,15 +19,15 @@ export class GetStatementOperationUseCase {
     private statementsRepository: IStatementsRepository
   ) {}
 
-  async execute({ user_id, statement_id }: IRequest) {
-    const user = await this.usersRepository.findById(user_id);
+  async execute({ received_id, statement_id }: IRequest) {
+    const user = await this.usersRepository.findById(received_id);
 
     if(!user) {
       throw new GetStatementOperationError.UserNotFound();
     }
 
     const statementOperation = await this.statementsRepository
-      .findStatementOperation({ user_id, statement_id });
+      .findStatementOperation({ received_id, statement_id });
 
       if(!statementOperation) {
         throw new GetStatementOperationError.StatementNotFound();

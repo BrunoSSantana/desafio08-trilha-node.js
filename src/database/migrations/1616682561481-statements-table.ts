@@ -18,6 +18,7 @@ export class accountsTable1616682561481 implements MigrationInterface {
         {
           name: 'send_id',
           type: 'uuid',
+          isNullable: true,
         },
         {
           name: 'description',

@@ -10,8 +10,8 @@ export class InMemoryUsersRepository implements IUsersRepository {
     return this.users.find(user => user.email === email);
   }
 
-  async findById(user_id: string): Promise<User | undefined> {
-    return this.users.find(user => user.id === user_id);
+  async findById(received_id: string): Promise<User | undefined> {
+    return this.users.find(user => user.id === received_id);
   }
 
   async create(data: ICreateUserDTO): Promise<User> {

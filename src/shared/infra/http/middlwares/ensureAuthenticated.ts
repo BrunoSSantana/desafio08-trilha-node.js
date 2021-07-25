@@ -23,10 +23,10 @@ export async function ensureAuthenticated(
   const [, token] = authHeader.split(" ");
 
   try {
-    const { sub: user_id } = verify(token, authConfig.jwt.secret) as IPayload;
+    const { sub: received_id } = verify(token, authConfig.jwt.secret) as IPayload;
 
     request.user = {
-      id: user_id,
+      id: received_id,
     };
 
     next();

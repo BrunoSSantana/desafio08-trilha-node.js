@@ -26,15 +26,15 @@ describe("Get Balance a User", ()=> {
       amount: 300,
       description: "test",
       type: OperationType.DEPOSIT,
-      user_id: user.id as string,
+      received_id: user.id as string,
     })
     await inMemorystatementsRepository.create({
       amount: 100,
       description: "test",
       type: OperationType.WITHDRAW,
-      user_id: user.id as string,
+      received_id: user.id as string,
     })
-    const balance = await getBalanceUseCase.execute({user_id: user.id as string});
+    const balance = await getBalanceUseCase.execute({received_id: user.id as string});
     
     expect(balance).toHaveProperty("statement")
     expect(balance).toHaveProperty("balance")
@@ -45,11 +45,11 @@ describe("Get Balance a User", ()=> {
       amount: 160,
       description: "test",
       type: OperationType.DEPOSIT,
-      user_id: "13"
+      received_id: "13"
     })
 
     expect(async () => {
-      await getBalanceUseCase.execute({user_id: "13"})
+      await getBalanceUseCase.execute({received_id: "13"})
     }).rejects.toBeInstanceOf(GetBalanceError)
   })
 })
