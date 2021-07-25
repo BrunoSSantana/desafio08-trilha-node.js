@@ -14,7 +14,6 @@ export enum OperationType {
   DEPOSIT = 'deposit',
   WITHDRAW = 'withdraw',
   TRANSFER = 'transfer',
-  RECEIVED =  'received'
 }
 
 @Entity('statements')
@@ -23,7 +22,7 @@ export class Statement {
   id?: string;
 
   @Column('uuid')
-  user_id: string;
+  received_id: string;
 
   @Column('uuid')
   send_id: string;

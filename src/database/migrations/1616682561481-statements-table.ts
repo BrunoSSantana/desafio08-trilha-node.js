@@ -12,7 +12,7 @@ export class accountsTable1616682561481 implements MigrationInterface {
           isPrimary: true,
         },
         {
-          name: 'user_id',
+          name: 'received_id',
           type: 'uuid',
         },
         {
@@ -33,7 +33,7 @@ export class accountsTable1616682561481 implements MigrationInterface {
         {
           name: 'type',
           type: 'enum',
-          enum: ['deposit', 'withdraw', 'transfer', 'received']
+          enum: ['deposit', 'withdraw', 'transfer']
         },
         {
           name: 'created_at',
