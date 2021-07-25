@@ -16,6 +16,10 @@ export class accountsTable1616682561481 implements MigrationInterface {
           type: 'uuid',
         },
         {
+          name: 'send_id',
+          type: 'uuid',
+        },
+        {
           name: 'description',
           type: 'varchar',
         },
@@ -44,12 +48,20 @@ export class accountsTable1616682561481 implements MigrationInterface {
       foreignKeys: [
         {
           name: 'statements',
-          columnNames: ['user_id'],
+          columnNames: ['received_id'],
           referencedTableName: 'users',
           referencedColumnNames: ['id'],
           onUpdate: 'CASCADE',
           onDelete: 'CASCADE'
-        }
+        },
+        {
+          name: 'transfers',
+          columnNames: ['send_id'],
+          referencedTableName: 'users',
+          referencedColumnNames: ['id'],
+          onUpdate: 'CASCADE',
+          onDelete: 'CASCADE'
+        },
       ]
     }))
   }
