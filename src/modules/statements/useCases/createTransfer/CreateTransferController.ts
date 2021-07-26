@@ -1,30 +1,28 @@
-import { Request, Response } from 'express';
-import { container } from 'tsyringe';
+import { Request, Response } from "express";
+import { container } from "tsyringe";
 
-import { CreateTransferUseCase } from './CreateTransferUseCase';
+import { OperationType } from "@modules/statements/entities/Statement";
 
-enum OperationType {
-  DEPOSIT = 'deposit',
-  WITHDRAW = 'withdraw',
-}
+import { CreateTransferUseCase } from "./CreateTransferUseCase";
 
-export class CreateStatementController {
-  async execute(request: Request, response: Response) {
-    const { id: received_id } = request.user;
+class CreateTransferController {
+  async execute(request: Request, response: Response): Promise<Response> {
+    const { id: send_id } = request.user;
     const { amount, description } = request.body;
-
-    const splittedPath = request.originalUrl.split('/')
-    const type = splittedPath[splittedPath.length - 1] as OperationType;
+    const { user_id: received_id } = request.params;
 
     const createTransfer = container.resolve(CreateTransferUseCase);
 
     const transfer = await createTransfer.execute({
       received_id,
-      type,
+      send_id,
+      type: OperationType.TRANSFER,
       amount,
-      description
+      description,
     });
 
     return response.status(201).json(transfer);
   }
 }
+
+export { CreateTransferController };

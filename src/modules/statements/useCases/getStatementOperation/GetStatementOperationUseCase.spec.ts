@@ -2,7 +2,7 @@ import { InMemoryUsersRepository } from "../../../users/repositories/in-memory/I
 import { ICreateUserDTO } from "../../../users/useCases/createUser/ICreateUserDTO";
 import { OperationType } from "../../entities/Statement";
 import { InMemoryStatementsRepository } from "../../repositories/in-memory/InMemoryStatementsRepository";
-import { ICreateStatementDTO } from "../createStatement/ICreateStatementDTO";
+import { ICreateStatementDTO } from "../../dtos/ICreateOperationDTO";
 import { GetStatementOperationError } from "./GetStatementOperationError";
 import { GetStatementOperationUseCase } from "./GetStatementOperationUseCase";
 

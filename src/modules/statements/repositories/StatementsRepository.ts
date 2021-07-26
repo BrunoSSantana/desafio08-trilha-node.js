@@ -1,7 +1,7 @@
 import { getRepository, Repository } from "typeorm";
 
+import { ICreateOperationDTO } from "../dtos/ICreateOperationDTO";
 import { Statement } from "../entities/Statement";
-import { ICreateStatementDTO } from "../useCases/createStatement/ICreateStatementDTO";
 import { IGetBalanceDTO } from "../useCases/getBalance/IGetBalanceDTO";
 import { IGetStatementOperationDTO } from "../useCases/getStatementOperation/IGetStatementOperationDTO";
 import { IStatementsRepository } from "./IStatementsRepository";
@@ -15,33 +15,39 @@ export class StatementsRepository implements IStatementsRepository {
 
   async create({
     received_id,
+    send_id = null,
     amount,
     description,
-    type
-  }: ICreateStatementDTO): Promise<Statement> {
+    type,
+  }: ICreateOperationDTO): Promise<Statement> {
     const statement = this.repository.create({
       received_id,
+      send_id,
       amount,
       description,
-      type
+      type,
     });
 
     return this.repository.save(statement);
   }
 
-  async findStatementOperation({ statement_id, received_id }: IGetStatementOperationDTO): Promise<Statement | undefined> {
+  async findStatementOperation({
+    statement_id,
+    received_id,
+  }: IGetStatementOperationDTO): Promise<Statement | undefined> {
     return this.repository.findOne(statement_id, {
-      where: { received_id }
+      where: { received_id },
     });
   }
 
-  async getUserBalance({ received_id, with_statement = false }: IGetBalanceDTO):
-    Promise<
-      { balance: number } | { balance: number, statement: Statement[] }
-    >
-  {
+  async getUserBalance({
+    received_id,
+    with_statement = false,
+  }: IGetBalanceDTO): Promise<
+    { balance: number } | { balance: number; statement: Statement[] }
+  > {
     const statement = await this.repository.find({
-      where: { received_id }
+      where: { received_id },
     });
 
     const balance = statement.reduce((acc, operation) => {
@@ -54,10 +60,10 @@ export class StatementsRepository implements IStatementsRepository {
     if (with_statement) {
       return {
         statement,
-        balance
-      }
+        balance,
+      };
     }
 
-    return { balance }
+    return { balance };
   }
 }
