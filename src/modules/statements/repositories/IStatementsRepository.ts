@@ -5,8 +5,9 @@ import { IGetStatementOperationDTO } from "../useCases/getStatementOperation/IGe
 
 export interface IStatementsRepository {
   create: (data: ICreateOperationDTO) => Promise<Statement>;
-  findStatementOperation: (data: IGetStatementOperationDTO) => Promise<Statement | undefined>;
-  getUserBalance: (data: IGetBalanceDTO) => Promise<
-    { balance: number } | { balance: number, statement: Statement[] }
+  getUserBalance: (
+    data: IGetBalanceDTO
+  ) => Promise<
+    { balance: number } | { balance: number; statement: Statement[] }
   >;
 }

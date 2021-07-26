@@ -30,14 +30,12 @@ class CreateTransferUseCase {
       throw new CreateTransferError.UserNotFound();
     }
 
-    if (type === "transfer") {
-      const { balance } = await this.statementsRepository.getUserBalance({
-        received_id,
-      });
+    const { balance } = await this.statementsRepository.getUserBalance({
+      received_id: send_id,
+    });
 
-      if (balance < amount) {
-        throw new CreateTransferError.InsufficientFunds();
-      }
+    if (balance < amount) {
+      throw new CreateTransferError.InsufficientFunds();
     }
 
     const transferOperation = await this.statementsRepository.create({
