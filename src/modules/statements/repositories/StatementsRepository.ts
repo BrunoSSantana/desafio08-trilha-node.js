@@ -33,11 +33,13 @@ export class StatementsRepository implements IStatementsRepository {
 
   async findStatementOperation({
     statement_id,
-    received_id,
   }: IGetStatementOperationDTO): Promise<Statement | undefined> {
-    return this.repository.findOne(statement_id, {
-      where: { received_id },
+    const statements = await this.repository.findOne(statement_id, {
+      where: { id: statement_id },
     });
+    console.log(statements);
+
+    return statements;
   }
 
   async getUserBalance({
