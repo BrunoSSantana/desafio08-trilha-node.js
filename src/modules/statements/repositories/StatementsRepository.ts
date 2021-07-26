@@ -37,7 +37,6 @@ export class StatementsRepository implements IStatementsRepository {
     const statements = await this.repository.findOne(statement_id, {
       where: { id: statement_id },
     });
-    console.log(statements);
 
     return statements;
   }
